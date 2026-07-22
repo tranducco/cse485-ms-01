@@ -1,76 +1,54 @@
 <?php
 require 'data.php';
-$categoryMap = [];
-foreach ($categories as $cat) {
-    $categoryMap[$cat['id']] = $cat['name'];
-}
-$totalInventoryValue = 0;
-$productCount = count($products);
+
+    $categoryMap = [];
+    
+    foreach ($categories as $category){
+        $categoryMap[$category['id']] = $category['name'];
+    }
+    $totalInventory = 0;
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiniShop - Catalog (Buoi 1)</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            padding: 20px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            max-width: 900px;
-            margin-bottom: 30px;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        td:nth-child(1), td:nth-child(4), td:nth-child(5), td:nth-child(6) {
-            text-align: right;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
-</head>
-<body>
-    <h1>MiniShop - Catalog (Buoi 1)</h1>
-    <table>
-        <thead>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>MiniShop - Catalog (Buoi 1)</title>
+    </head>
+    <body>
+        <h2>MiniShop - Catalog (Buoi 1)</h2>
+        <table border = "1">
             <tr>
-                <th>sku</th>
-                <th>name</th>
-                <th>category name</th>
-                <th>price</th>
-                <th>qty</th>
-                <th>line_total</th>
+                <th>SKU</th>
+                <th>Ten</th>
+                <th>Danh muc</th>
+                <th>Gia</th>
+                <th>So Luong</th>
+                <th>Thanh tien</th>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($products as $product): ?>
-                <?php
-                    $lineTotal = $product['price'] * $product['qty'];
-                    $totalInventoryValue += $lineTotal;
-                ?>
-                <tr>
-                    <td><?= htmlspecialchars($product['sku']) ?></td>
-                    <td><?= htmlspecialchars($product['name']) ?></td>
-                    <td><?= htmlspecialchars($categoryMap[$product['category_id']]) ?></td>
-                    <td><?= number_format($product['price'], 0, ',', '.') ?> đ</td>
-                    <td><?= $product['qty'] ?></td>
-                    <td><?= $lineTotal ?> </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <p>So san pham =<?=$productCount ?></p>
-    <p>Tong gia tri kho = <?= $totalInventoryValue ?> </p>
-    <hr>
-    <pre><?php var_dump($products);?></pre>
-    <!--MS_EXPECT  products_count=8 inventory_value=41380000 -->
-</body>
+            <?php foreach($products as $product): ?>
+            <?php
+                $lineTotal = $product['price'] * $product['qty'];
+                $totalInventory += $lineTotal;
+            ?>
+            <tr>
+                <td><?= htmlspecialchars($product['sku'])?></td>
+                <td><?= htmlspecialchars($product['name'])?></td>
+                <td><?= htmlspecialchars($categoryMap[$product['category_id']])?></td>
+                <td><?= number_format($product['price'])?></td>
+                <td><?= $product['qty']?></td>
+                <td><?= number_format($lineTotal)?></td>
+            </tr>
+            <?php endforeach; ?>            
+        </table> 
+        <br>
+        <h3>Tong gia tri kho = <?= number_format($totalInventory) ?></h3>
+        <h3>So san pham = <?= count($products) ?></h3>  
+        <h3>Debug</h3>
+        <pre>
+            <?php
+            var_dump($products);
+            ?>
+        </pre>
+        <!-- MS_EXPECT product_count= 8 inventory_value = 41380000 -->
+    </body>
 </html>
